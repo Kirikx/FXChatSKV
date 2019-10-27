@@ -1,13 +1,12 @@
 package Chat;
 
+
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.input.*;
 
 public class Controller {
     @FXML
@@ -28,7 +27,7 @@ public class Controller {
 
         if(tf.getText().length() > 0) {
             TextArea ta = (TextArea) source.getScene().lookup("#MessageArea");
-            ta.appendText(tf.getText() + "\n");
+            ta.appendText( tf.getText() + "\n");
             tf.clear();
         }
 
