@@ -9,12 +9,18 @@ import javafx.stage.Stage;
 public class App extends Application {
 
     @Override
-    public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("/form.fxml"));
+    public void start(Stage primaryStage) throws Exception {
+
         primaryStage.setTitle("FXChatSKV");
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/form.fxml"));
+        Parent root = loader.load();
         primaryStage.centerOnScreen();
         primaryStage.setResizable(false);
         primaryStage.setScene(new Scene(root));
+
+        ControllerChat controller = loader.getController();
+        primaryStage.setOnHidden(e -> controller.shutdown());
+
         primaryStage.show();
     }
 
