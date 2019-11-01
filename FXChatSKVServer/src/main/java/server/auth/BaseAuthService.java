@@ -1,5 +1,6 @@
 package server.auth;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class BaseAuthService implements AuthService {
@@ -16,7 +17,7 @@ public class BaseAuthService implements AuthService {
         }
     }
 
-    private final List<Entry> entries = List.of(
+    private final List<Entry> entries = Arrays.asList(
             new Entry("login1", "pass1", "nick1"),
             new Entry("login2", "pass2", "nick2"),
             new Entry("login3", "pass3", "nick3")
@@ -24,12 +25,12 @@ public class BaseAuthService implements AuthService {
 
     @Override
     public void start() {
-        System.out.println("Auth service is running");
+        System.out.println("Сервис аутентификации запущен");
     }
 
     @Override
     public void stop() {
-        System.out.println("Auth service has stopped");
+        System.out.println("Сервис аутентификации остановлен");
     }
 
     @Override

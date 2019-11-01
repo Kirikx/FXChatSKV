@@ -1,12 +1,15 @@
 package Chat.Message;
 
 import Chat.ControllerChat;
+import javafx.application.Platform;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextArea;
 import Chat.Network;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Optional;
 import java.util.Properties;
 
 public class ServerMessageService implements IMessageService {
@@ -66,14 +69,29 @@ public class ServerMessageService implements IMessageService {
         if (message.startsWith("/authok")) {
             setVisibleChat();
 
-        }
-        else if (controllerChat.authPanel.isVisible()) {
+        } else if (controllerChat.authPanel.isVisible()) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Аутентификация не пройдена!");
-            alert.setContentText(message);
-            alert.showAndWait();
-        }
-        else {
+            String[] search = message.split("\\s+");
+            if (search[0].equals("/authno")) {
+                alert.setContentText(message.substring(message.indexOf(search[1])));
+                try {
+                    network.close();
+                } catch (IOException e) {
+                    throw new ServerConnectionException("Ошибка отключения от сервера", e);
+                }
+//                alert.showAndWait();
+                Optional<ButtonType> option = alert.showAndWait();
+                if (option.get() == null) {
+                    Platform.exit();
+                } else if (option.get() == ButtonType.OK) {
+                    Platform.exit();
+                }
+            } else {
+                alert.setContentText(message);
+                alert.showAndWait();
+            }
+        } else {
             MessageArea.appendText("Сервер: " + message + System.lineSeparator());
         }
     }

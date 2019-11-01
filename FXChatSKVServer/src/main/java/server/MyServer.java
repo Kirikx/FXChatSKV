@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class MyServer {
@@ -19,13 +20,13 @@ public class MyServer {
     private List<ClientHandler> clients = new ArrayList<>();
 
     public MyServer() {
-        System.out.println("Server is running");
+        System.out.println("Сервер запущен");
         try (ServerSocket serverSocket = new ServerSocket(PORT)) {
             authService.start();
             while (true) {
-                System.out.println("Awaiting client connection...");
+                System.out.println("Ожидание подключения клиентов...");
                 Socket socket = serverSocket.accept();
-                System.out.println("Client has connected");
+                System.out.println("Клиент подключился!");
                 new ClientHandler(socket, this);
             }
 
@@ -37,11 +38,14 @@ public class MyServer {
         }
     }
 
-    public synchronized void subscribe(ClientHandler clientHandler) {
+    public synchronized void addClient(ClientHandler clientHandler) {
+
         clients.add(clientHandler);
     }
 
-    public synchronized void unsubscribe(ClientHandler clientHandler) {
+
+    public synchronized void deleteClient(ClientHandler clientHandler) {
+
         clients.remove(clientHandler);
     }
 
@@ -59,9 +63,21 @@ public class MyServer {
         return false;
     }
 
-    public synchronized void broadcastMessage(String message) {
+    public synchronized void broadcastMessage(String message, ClientHandler... unfilteredClients) {
+        List<ClientHandler> unfiltered = Arrays.asList(unfilteredClients);
         for (ClientHandler client : clients) {
-            client.sendMessage(message);
+            if (!unfiltered.contains(client)) {
+                client.sendMessage(message);
+            }
+        }
+    }
+
+    public synchronized void sendPrivateMessage(String receivedLogin, String message) {
+        for (ClientHandler client : clients) {
+            if (client.getClientName().equals(receivedLogin)) {
+                client.sendMessage(message);
+                break;
+            }
         }
     }
 }

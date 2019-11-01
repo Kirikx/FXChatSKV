@@ -19,13 +19,19 @@ import java.util.ResourceBundle;
 public class ControllerChat implements Initializable {
     private IMessageService messageService;
 
-    public @FXML TextArea MessageArea;
-    public @FXML TextField Message;
-    public @FXML Button Send;
-    public @FXML VBox authPanel ;
+    public @FXML
+    TextArea MessageArea;
+    public @FXML
+    TextField Message;
+    public @FXML
+    Button Send;
+    public @FXML
+    VBox authPanel;
 
-    public @FXML TextField loginField;
-    public @FXML PasswordField passField;
+    public @FXML
+    TextField loginField;
+    public @FXML
+    PasswordField passField;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -43,15 +49,10 @@ public class ControllerChat implements Initializable {
 
         VBox dialogPaneContent = new VBox();
 
-        Label label = new Label("Stack Trace:");
-
-//        String stackTrace = ExceptionUtils.getStackTrace(e);
-        TextArea textArea = new TextArea();
-//        textArea.setText(stackTrace);
+        Label label = new Label("Полный провал");
+        TextArea textArea = new TextArea("Разберемся позже!");
 
         dialogPaneContent.getChildren().addAll(label, textArea);
-
-        // Set content for Dialog Pane
         alert.getDialogPane().setContent(dialogPaneContent);
         alert.setResizable(true);
         alert.showAndWait();
@@ -60,7 +61,7 @@ public class ControllerChat implements Initializable {
     }
 
     @FXML
-    private void clickButton (MouseEvent e) {
+    private void clickButton(MouseEvent e) {
         messageStack(e);
     }
 
@@ -76,14 +77,15 @@ public class ControllerChat implements Initializable {
 //        Node source = (Node) e.getSource();
 //        TextField tf = (TextField) source.getScene().lookup("#Message");
 
-        if(Message.getText().length() > 0) {
+        if (Message.getText().length() > 0) {
 //            TextArea ta = (TextArea) source.getScene().lookup("#MessageArea");
-            MessageArea.appendText( "Я: " + Message.getText() + System.lineSeparator());
+            MessageArea.appendText("Я: " + Message.getText() + System.lineSeparator());
             messageService.sendMessage(Message.getText());
             Message.clear();
         }
         Message.requestFocus();
     }
+
     public void shutdown() {
         try {
             messageService.close();
