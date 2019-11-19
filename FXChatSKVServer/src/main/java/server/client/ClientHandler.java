@@ -47,7 +47,7 @@ public class ClientHandler {
 
     }
 
-    private void readMessages() throws IOException {
+    private void readMessages() throws IOException, SQLException {
         while (true) {
             String clientMessage = in.readUTF();
             System.out.printf("Сообщение '%s' от клиента %s%n", clientMessage, clientName);
@@ -63,7 +63,21 @@ public class ClientHandler {
                 String message = clientMessage.substring(clientMessage.indexOf(searchName + " "));
 
                 myServer.sendPrivateMessage(searchName, clientName + ": " + message);
-            } else {
+            } else if (clientMessage.startsWith("/rename")) {
+                String[] search = clientMessage.split("\\s+");
+                if (search.length < 4) {
+                    sendMessage("Формат: 'newNick login password' не определен! " + clientMessage);
+                    continue;
+                }
+                String NewNick = search[1];
+                String login = search[2];
+                String pass = search[3];
+
+                String rename = myServer.getAuthService().rename(login, pass, NewNick);
+                myServer.broadcastMessage(clientName + ": Ник изменен на "+ rename, this);
+                clientName = rename;
+            }
+            else {
                 myServer.broadcastMessage(clientName + ": " + clientMessage, this);
             }
         }
@@ -103,8 +117,16 @@ public class ClientHandler {
             String clientMessage = in.readUTF();
             if (clientMessage.startsWith("/auth")) {
                 String[] loginAndPasswords = clientMessage.split("\\s+");
-                String login = loginAndPasswords[1];
-                String password = loginAndPasswords[2];
+                String login = new String();
+                String password = new String();
+                try {
+                    login = loginAndPasswords[1];
+                    password = loginAndPasswords[2];
+                } catch (ArrayIndexOutOfBoundsException e) {
+                    e.printStackTrace();
+                    System.out.println("пароль/логин не введены!");
+                    continue;
+                }
 
                 String nick = myServer.getAuthService().getNickByLoginPass(login, password);
                 if (nick == null) {

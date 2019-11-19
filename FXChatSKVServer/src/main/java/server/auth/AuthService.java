@@ -12,4 +12,6 @@ public interface AuthService {
     @Nullable
     String getNickByLoginPass(String login, String pass) throws SQLException;
 
+    String rename (String login, String pass, String newnick) throws SQLException;
+
 }

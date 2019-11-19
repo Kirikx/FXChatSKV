@@ -25,7 +25,7 @@
     <show-object-properties value="true" />
     <loaded-nodes>
       <connection connection-id="9fcfe90f-f864-4ecd-b495-920cd160a1e2">
-        <schema name="main" object-types="view, constraint, index, dataset trigger, table, column" />
+        <schema name="main" object-types="view, table, column" />
       </connection>
     </loaded-nodes>
   </component>
@@ -35,9 +35,10 @@
 alter table main.authentification add id integer primary key autoincrement not null;
 select * from authentification
 alter table main.authentification add id integer primary key;
-select * from authentification ;
+select * from auth ;
 alter table authentification add id integer primary key not null;
-SELECT nick FROM "auth" WHERE login = 'login2' pass ='pass2'"]]></console>
+SELECT nick FROM "auth" WHERE login = 'login2' pass ='pass2';
+UPDATE auth SET nick = 'nick11' WHERE login = 'login1'AND pass = 'pass1';]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
