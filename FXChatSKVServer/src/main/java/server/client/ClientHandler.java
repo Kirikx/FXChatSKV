@@ -6,6 +6,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.sql.SQLException;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -32,7 +33,7 @@ public class ClientHandler {
                 try {
                     authentication();
                     readMessages();
-                } catch (IOException e) {
+                } catch (IOException | SQLException e) {
                     e.printStackTrace();
                 } finally {
                     closeConnection();
@@ -79,7 +80,7 @@ public class ClientHandler {
         }
     }
 
-    private void authentication() throws IOException {
+    private void authentication() throws IOException, SQLException {
         while (true) {
             Timer timeoutTimer = new Timer(true);
             timeoutTimer.schedule(new TimerTask() {

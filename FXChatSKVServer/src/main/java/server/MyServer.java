@@ -7,6 +7,7 @@ import server.client.ClientHandler;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -19,7 +20,7 @@ public class MyServer {
 
     private List<ClientHandler> clients = new ArrayList<>();
 
-    public MyServer() {
+    public MyServer() throws SQLException, ClassNotFoundException {
         System.out.println("Сервер запущен");
         try (ServerSocket serverSocket = new ServerSocket(PORT)) {
             authService.start();
