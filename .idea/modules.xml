@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/FXChatSKV.iml" filepath="$PROJECT_DIR$/FXChatSKV.iml" />
+      <module fileurl="file://$PROJECT_DIR$/FXChatSKVClient/FXChatSKVClient.iml" filepath="$PROJECT_DIR$/FXChatSKVClient/FXChatSKVClient.iml" />
+      <module fileurl="file://$PROJECT_DIR$/FXChatSKVServer/FXChatSKVServer.iml" filepath="$PROJECT_DIR$/FXChatSKVServer/FXChatSKVServer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/FXChatSKVClient/javafx-archetype-fxml.iml" filepath="$PROJECT_DIR$/FXChatSKVClient/javafx-archetype-fxml.iml" />
+    </modules>
+  </component>
+</project>

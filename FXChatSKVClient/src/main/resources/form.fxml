@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane fx:id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Chat.ControllerChat">
+   <children>
+      <TextField fx:id="Message" layoutX="5.0" layoutY="373.0" onKeyPressed="#pressEnter" prefHeight="25.0" prefWidth="495.0" promptText="Введите сообщение" visible="false" />
+      <TextArea fx:id="MessageArea" editable="false" focusTraversable="false" layoutX="5.0" layoutY="5.0" prefHeight="365.0" prefWidth="589.0" visible="false" />
+      <Button fx:id="Send" layoutX="503.0" layoutY="373.0" mnemonicParsing="false" onKeyPressed="#pressEnter" onMouseClicked="#clickButton" prefHeight="25.0" prefWidth="92.0" text="Отправить" visible="false" />
+      <VBox fx:id="authPanel" layoutX="225.0" layoutY="124.0" prefHeight="125.0" prefWidth="150.0" visible="true">
+         <children>
+            <Label text="Логин" />
+            <TextField fx:id="loginField" />
+            <Label text="Пароль" />
+            <PasswordField fx:id="passField" />
+            <Label />
+            <Button mnemonicParsing="false" onAction="#sendAuth" prefHeight="25.0" prefWidth="151.0" text="Войти в чат" />
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
