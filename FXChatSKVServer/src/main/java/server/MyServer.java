@@ -20,6 +20,7 @@ public class MyServer {
 
     private List<ClientHandler> clients = new ArrayList<>();
 
+
     public MyServer() throws SQLException, ClassNotFoundException {
         System.out.println("Сервер запущен");
         try (ServerSocket serverSocket = new ServerSocket(PORT)) {
@@ -71,6 +72,7 @@ public class MyServer {
                 client.sendMessage(message);
             }
         }
+
     }
 
     public synchronized void sendPrivateMessage(String receivedLogin, String message) {

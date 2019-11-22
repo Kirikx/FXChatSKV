@@ -92,7 +92,7 @@ public class ServerMessageService implements IMessageService {
                 alert.showAndWait();
             }
         } else {
-            MessageArea.appendText("Сервер: " + message + System.lineSeparator());
+            MessageArea.appendText(message + System.lineSeparator());
         }
     }
 

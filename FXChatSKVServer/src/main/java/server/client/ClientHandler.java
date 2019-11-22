@@ -1,11 +1,13 @@
 package server.client;
 
+import com.sun.jdi.Value;
 import server.MyServer;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -15,6 +17,7 @@ public class ClientHandler {
     public static final int TIMEOUT = 15 * 1000;
     public static final String AUTHOK = "/authok";
     public static final String AUTHNO = "/authno";
+    public static final File FILE = new File("D:\\FXChatSKV\\FXChatSKVServer\\src\\main\\resources\\mesages.txt");
 
     private MyServer myServer;
     private String clientName;
@@ -44,7 +47,6 @@ public class ClientHandler {
         } catch (IOException e) {
             throw new RuntimeException("Ошибка!!!", e);
         }
-
     }
 
     private void readMessages() throws IOException, SQLException {
@@ -79,6 +81,11 @@ public class ClientHandler {
             }
             else {
                 myServer.broadcastMessage(clientName + ": " + clientMessage, this);
+
+                FileOutputStream fos = new FileOutputStream(FILE, true);
+                String str = clientName + ": " + clientMessage + "\n";
+                fos.write(str.getBytes());
+                fos.close();
             }
         }
     }
@@ -143,6 +150,25 @@ public class ClientHandler {
                 clientName = nick;
                 myServer.broadcastMessage(clientName + " онлайн");
                 myServer.addClient(this);
+
+
+                BufferedReader fos = new BufferedReader(
+                        new InputStreamReader(
+                                new FileInputStream(FILE), StandardCharsets.UTF_8));
+                String line;
+                int i = 0;
+                while ((line = fos.readLine()) != null) {
+                    boolean isComStart = line.startsWith(clientName);
+                    if (isComStart) {
+                        line = line.replaceFirst(clientName, "Я");
+                    }
+                    myServer.sendPrivateMessage(clientName, line);
+                    i++;
+                    if (i >= 100) {
+                        break;
+                    }
+                }
+                fos.close();
                 break;
             }
         }
@@ -152,7 +178,7 @@ public class ClientHandler {
         try {
             out.writeUTF(message);
         } catch (IOException e) {
-            System.err.println("Ошибка отправки сообшения клиенту " + clientName + " : " + message);
+            System.err.println("Ошибка отправки сообщения клиенту " + clientName + " : " + message);
             e.printStackTrace();
         }
     }
