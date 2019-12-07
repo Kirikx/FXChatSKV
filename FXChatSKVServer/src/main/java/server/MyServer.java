@@ -1,5 +1,6 @@
 package server;
 
+import org.apache.log4j.Logger;
 import server.auth.AuthService;
 import server.auth.BaseAuthService;
 import server.client.ClientHandler;
@@ -20,20 +21,26 @@ public class MyServer {
 
     private List<ClientHandler> clients = new ArrayList<>();
 
+    // Инициализация логера
+    private static final Logger log = Logger.getLogger(MyServer.class);
+
 
     public MyServer() throws SQLException, ClassNotFoundException {
         System.out.println("Сервер запущен");
+        log.info("Сервер запущен");
         try (ServerSocket serverSocket = new ServerSocket(PORT)) {
             authService.start();
             while (true) {
                 System.out.println("Ожидание подключения клиентов...");
                 Socket socket = serverSocket.accept();
                 System.out.println("Клиент подключился!");
+                log.info("Клиент подключился!");
                 new ClientHandler(socket, this);
             }
 
         } catch (IOException e) {
             System.err.println("Ошибка в работе сервера. Причина: " + e.getMessage());
+            log.info("Ошибка в работе сервера. Причина: " + e.getMessage());
             e.printStackTrace();
         } finally {
             authService.stop();
